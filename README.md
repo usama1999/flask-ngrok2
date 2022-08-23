@@ -26,7 +26,7 @@ See the [example notebook](https://colab.research.google.com/github/gstaff/flask
 ```python
 # flask_ngrok_example.py
 from flask import Flask
-from flask_ngrok import run_with_ngrok
+from flask_ngrok2 import run_with_ngrok
 
 app = Flask(__name__)
 run_with_ngrok(app)  # Start ngrok when app is run
