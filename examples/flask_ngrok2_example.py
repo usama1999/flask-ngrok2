@@ -1,5 +1,4 @@
 from flask import Flask
-
 from flask_ngrok2 import run_with_ngrok
 
 app = Flask(__name__)

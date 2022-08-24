@@ -26,12 +26,13 @@ def _get_command():
         raise Exception("{system} is not supported".format(system=system))
     return command
 
+
 def _check_ngrok_available():
     cmd = "where" if platform.system() == "Windows" else "which"
-    try: 
+    try:
         subprocess.call([cmd, "ngrok"])
         return True
-    except: 
+    except:
         print("Try installing ngrok")
         return False
 
@@ -45,6 +46,7 @@ def _run_ngrok(port):
         os.chmod(executable, stat.S_IEXEC)  # Make file executable for the current user.
     else:
         executable = "ngrok"
+    print(executable)
     ngrok = subprocess.Popen([executable, "http", str(port)])
     atexit.register(ngrok.terminate)
     localhost_url = "http://localhost:4040/api/tunnels"  # Url with tunnel details
@@ -107,7 +109,7 @@ def run_with_ngrok(app):
 
     app.run = new_run
 
+
 if __name__ == "__main__":
-    # ngrok_path = str(Path(tempfile.gettempdir(), "ngrok"))
-    # executable = str(Path(ngrok_path, "ngrok"))
     print(_check_ngrok_available())
+    

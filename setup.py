@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="flask-ngrok2",
-    version="0.2.1",
+    version="0.2.2",
     author="Mohamed Rashad",
     description="A successor to flask-ngrok for demo Flask apps using ngrok.",
     long_description=long_description,
