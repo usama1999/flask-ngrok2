@@ -30,23 +30,26 @@ def _get_command():
 def _check_ngrok_available():
     cmd = "where" if platform.system() == "Windows" else "which"
     try:
-        subprocess.call([cmd, "ngrok"])
-        return True
+        res = subprocess.call([cmd, "ngrok"])
+        return False if res else True  # subprocess will return 1 if not found otherwise 0
     except:
         print("Try installing ngrok")
         return False
 
 
-def _run_ngrok(port):
+def _run_ngrok(port, auth_token):
     command = _get_command()
-    if _check_ngrok_available() == False:
+    if not _check_ngrok_available():
         ngrok_path = str(Path(tempfile.gettempdir(), "ngrok"))
         _download_ngrok(ngrok_path)
         executable = str(Path(ngrok_path, command))
         os.chmod(executable, stat.S_IEXEC)  # Make file executable for the current user.
     else:
         executable = "ngrok"
-    print(executable)
+    
+    if auth_token:
+        os.system(f"{executable} authtoken {auth_token}")
+
     ngrok = subprocess.Popen([executable, "http", str(port)])
     atexit.register(ngrok.terminate)
     localhost_url = "http://localhost:4040/api/tunnels"  # Url with tunnel details
@@ -85,13 +88,13 @@ def _download_file(url):
     return download_path
 
 
-def start_ngrok(port):
-    ngrok_address = _run_ngrok(port)
+def start_ngrok(port, auth_token):
+    ngrok_address = _run_ngrok(port, auth_token)
     print(f" * Running on {ngrok_address}")
     print(f" * Traffic stats available on http://127.0.0.1:4040")
 
 
-def run_with_ngrok(app):
+def run_with_ngrok(app, auth_token=None):
     """
     The provided Flask app will be securely exposed to the public internet via ngrok when run,
     and the its ngrok address will be printed to stdout
@@ -102,7 +105,7 @@ def run_with_ngrok(app):
 
     def new_run(*args, **kwargs):
         port = kwargs.get("port", 5000)
-        thread = Timer(1, start_ngrok, args=(port,))
+        thread = Timer(1, start_ngrok, args=(port, auth_token))
         thread.setDaemon(True)
         thread.start()
         old_run(*args, **kwargs)
@@ -112,4 +115,3 @@ def run_with_ngrok(app):
 
 if __name__ == "__main__":
     print(_check_ngrok_available())
-    
