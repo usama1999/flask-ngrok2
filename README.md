@@ -3,7 +3,7 @@
 
 [![PyPI version](https://badge.fury.io/py/flask-ngrok2.svg)](https://badge.fury.io/py/flask-ngrok2)
 
-The successor for [flask-ngrok2](https://github.com/gstaff/flask-ngrok) for making demo Flask apps from personal machine.
+The successor for [flask-ngrok](https://github.com/gstaff/flask-ngrok) for making demo Flask apps from personal machine.
 
 ## Compatability
 Python 3.6+ is required.
