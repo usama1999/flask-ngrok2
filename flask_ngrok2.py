@@ -46,7 +46,7 @@ def _run_ngrok(port, auth_token):
         os.chmod(executable, stat.S_IEXEC)  # Make file executable for the current user.
     else:
         executable = "ngrok"
-    
+
     if auth_token:
         os.system(f"{executable} authtoken {auth_token}")
 
