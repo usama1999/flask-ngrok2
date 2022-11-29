@@ -12,7 +12,7 @@ from pathlib import Path
 from threading import Timer
 
 import requests
-
+pAddress = ''
 def _get_command():
     system = platform.system()
     if system == "Darwin":
@@ -88,11 +88,17 @@ def _download_file(url):
 
 
 def start_ngrok(port, auth_token):
+    global pAddress
     ngrok_address = _run_ngrok(port, auth_token)
+    pAddress = ngrok_address
+    print('updating')
     print(f" * Running on {ngrok_address}")
     print(f" * Traffic stats available on http://127.0.0.1:4040")
     return ngrok_address
 
+def getPA():
+    global pAddress
+    return pAddress
 
 def run_with_ngrok(app, auth_token=None):
     """
