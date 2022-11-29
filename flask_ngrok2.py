@@ -13,7 +13,6 @@ from threading import Timer
 
 import requests
 
-public_address = ''
 def _get_command():
     system = platform.system()
     if system == "Darwin":
@@ -89,14 +88,11 @@ def _download_file(url):
 
 
 def start_ngrok(port, auth_token):
-    global public_address
     ngrok_address = _run_ngrok(port, auth_token)
-    public_address = ngrok_address
     print(f" * Running on {ngrok_address}")
     print(f" * Traffic stats available on http://127.0.0.1:4040")
-def getPublicAddress():
-    global public_address
-    return public_address
+    return ngrok_address
+
 
 def run_with_ngrok(app, auth_token=None):
     """
